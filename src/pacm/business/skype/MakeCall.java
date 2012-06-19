@@ -161,7 +161,7 @@ public class MakeCall implements Runnable {
                     Logger.getLogger(MakeCall.class.getName()).log(Level.SEVERE, null, ex);
                 }
 	    
-		String[] args = new String[]{"vitor.nunes.benedito","mamute##",telefone,"/Users/vitorbenedito/projetos"};
+		String[] args = new String[]{"vitor.nunes.benedito","",telefone,"/Users/vitorbenedito/projetos"};
 		
 		if (args.length < REQ_ARG_CNT) {
 			MySession.myConsole.printf("Usage is %s accountName accountPassword [appTokenPathname]%n%n", MY_CLASS_TAG);
