@@ -8,12 +8,8 @@
 package pacm.view;  
   
 import java.awt.BorderLayout;  
-import java.awt.FlowLayout;  
-import java.awt.event.ItemEvent;  
-import java.awt.event.ItemListener;  
   
 import javax.swing.BorderFactory;  
-import javax.swing.JCheckBox;  
 import javax.swing.JFrame;  
 import javax.swing.JPanel;  
 import javax.swing.SwingUtilities;  
@@ -29,6 +25,8 @@ public class InternetPanel extends JPanel {
   
   public InternetPanel() {  
     super(new BorderLayout());  
+    
+    NativeInterface.open();
     JPanel webBrowserPanel = new JPanel(new BorderLayout());  
     webBrowserPanel.setBorder(BorderFactory.createTitledBorder("Native Web Browser component"));  
     final JWebBrowser webBrowser = new JWebBrowser();  

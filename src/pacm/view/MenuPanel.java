@@ -4,12 +4,6 @@
  */
 package pacm.view;
 
-import chrriis.common.UIUtils;
-import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 /**
  *
  * @author vitorbenedito
@@ -29,9 +23,7 @@ public class MenuPanel extends javax.swing.JPanel {
     MenuPanel(PacmFrame pacmFrame) {
         initComponents();
         mainFrame = pacmFrame;
-        mainFrame.getjPanel1().setVisible(false);
-        UIUtils.setPreferredLookAndFeel();  
-        NativeInterface.open();  
+        mainFrame.getjPanel1().setVisible(false);  
         
     }
 
@@ -73,6 +65,11 @@ public class MenuPanel extends javax.swing.JPanel {
         jButton2.setBackground(new java.awt.Color(204, 204, 204));
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/stock_mail.png"))); // NOI18N
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/msn_messenger.png"))); // NOI18N
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -95,15 +92,30 @@ public class MenuPanel extends javax.swing.JPanel {
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hp_pictures_folder_dock.png"))); // NOI18N
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/arts.png"))); // NOI18N
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pendrive.png"))); // NOI18N
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/27_edit_text.png"))); // NOI18N
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/x_office_spreadsheet.png"))); // NOI18N
         jButton10.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
@@ -217,6 +229,28 @@ public class MenuPanel extends javax.swing.JPanel {
         mainFrame.getjScrollPane1().setViewportView(new SmsPanel());  
         mainFrame.getjPanel1().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        mainFrame.getjScrollPane1().setViewportView(new EmailPanel());  
+        mainFrame.getjPanel1().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        
+        mainFrame.getjScrollPane1().setViewportView(new ImagemPanel( null ));  
+        mainFrame.getjPanel1().setVisible(true);
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        mainFrame.getjScrollPane1().setViewportView(new SomPanel( null ));  
+        mainFrame.getjPanel1().setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        mainFrame.getjScrollPane1().setViewportView(new EditorTextoPanel( ));  
+        mainFrame.getjPanel1().setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
