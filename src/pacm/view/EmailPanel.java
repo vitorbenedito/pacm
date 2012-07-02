@@ -41,13 +41,19 @@ public class EmailPanel extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(0, 51, 102));
+
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Email:");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Titulo:");
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Texto:");
 
         jTextField1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -63,7 +69,7 @@ public class EmailPanel extends javax.swing.JPanel {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/email-send-icon.png"))); // NOI18N
         jButton2.setText("Enviar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +133,7 @@ public class EmailPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         SendMail sendMail = new SendMail();
+        SendMail sendMail = new SendMail();
         
         sendMail.sendMail("mamumute@gmail.com", jTextField1.getText(), jTextField2.getText(), jTextArea1.getText());
         

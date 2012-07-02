@@ -1,10 +1,6 @@
 package pacm.view;
 
-    import java.awt.BorderLayout;  
-    import java.awt.Graphics;  
-    import java.awt.GridLayout;  
-    import java.awt.Image;  
-    import java.awt.Toolkit;  
+    import java.awt.*;  
     import java.awt.event.ActionEvent;  
     import java.awt.event.ActionListener;  
     import java.io.File;  
@@ -32,6 +28,8 @@ package pacm.view;
       
        public ImagemPanel(String imagensUrls[]) {  
           
+           this.setBackground(new java.awt.Color(0, 51, 102));
+           
           setLayout(new BorderLayout(5, 10));  
           setSize(450, 300);  
       
@@ -42,6 +40,7 @@ package pacm.view;
           btnVoltar = new JButton("<<");  
       
           pnlBotoes = new JPanel(new GridLayout(1, 3, 30, 5));  
+          pnlBotoes.setBackground(new java.awt.Color(0, 51, 102));
           pnlBotoes.add(btnVoltar);  
           pnlBotoes.add(btnAbrir);  
           pnlBotoes.add(btnAvancar);  
@@ -49,14 +48,14 @@ package pacm.view;
       
           pnlImagem = new VisualizaImgem();  
           add(pnlImagem);  
-      
+          
           if (imagensUrls == null || imagensUrls.length == 0) {  
-             String imgs[] = escolherImagens();  
-             if (imgs == null || imgs.length == 0) {  
-                System.exit(0);  
-             } else {  
-                setImagens(imgs);  
-             }  
+//             String imgs[] = escolherImagens();  
+//             if (imgs == null || imgs.length == 0) {  
+//                System.exit(0);  
+//             } else {  
+//                setImagens(imgs);  
+//             }  
           } else {  
              setImagens(imagensUrls);  
           }  
@@ -98,6 +97,8 @@ package pacm.view;
       
        public String[] escolherImagens() throws NullPointerException {  
           String imagens[];  
+          
+       
           JFileChooser fc = new JFileChooser();  
           fc.setMultiSelectionEnabled(true);  
       
@@ -122,7 +123,8 @@ package pacm.view;
           private static final long serialVersionUID = 1L;  
           private Image img;  
       
-          public VisualizaImgem() {  
+          public VisualizaImgem() { 
+              this.setBackground(new java.awt.Color(0, 51, 102));
           }  
       
           public VisualizaImgem(Image img) {  

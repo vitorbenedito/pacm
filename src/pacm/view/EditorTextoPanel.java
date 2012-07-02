@@ -1,11 +1,4 @@
-    /*  
-     * Created on 20/10/2005  
-     *  
-     * TextEditor criado por K1NDrED (pajé, lasanha)  
-     * Será lançado sobre licensa GPL futuramente  
-     * A idéia é criar um bloco de notas simples bem comentado   
-     * para uso educacional  
-     */   
+
     package pacm.view;   
        
     import java.awt.BorderLayout;   

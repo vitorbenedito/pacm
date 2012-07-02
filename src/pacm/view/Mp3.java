@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
-public class Mp3 implements Runnable {
+public class Mp3 extends Thread {
   /**
    * Objeto para nosso arquivo MP3 a ser tocado
    */
@@ -14,6 +14,7 @@ public class Mp3 implements Runnable {
    * MP3
    */
   private Player player;
+ 
   /**
    * Construtor que recebe o objeto File referenciando o arquivo
    * MP3 a ser tocado e atribui ao atributo MP3 da classe.
@@ -27,17 +28,24 @@ public class Mp3 implements Runnable {
    * Método que toca o MP3
    */
   public void run() {
-      try {
-                FileInputStream fis     = new FileInputStream(mp3);
-                BufferedInputStream bis = new BufferedInputStream(fis);
-                this.player = new Player(bis);
-                System.out.println("Tocando!");
-                this.player.play();
-                System.out.println("Terminado!");
-            }
-            catch (Exception e) {
-                System.out.println("Problema ao tocar " + mp3);
-                e.printStackTrace();
-            }
+      
+              try {
+            
+                    FileInputStream fis     = new FileInputStream(mp3);
+                    BufferedInputStream bis = new BufferedInputStream(fis);
+                    this.player = new Player(bis);
+                    System.out.println("Tocando!");
+                    this.player.play();
+                    System.out.println("Terminado!");
+                }
+                catch (Exception e) {
+                    System.out.println("Problema ao tocar " + mp3);
+                    e.printStackTrace();
+                }
+       
      }
+  
+   public void stopMusic(){
+       this.player.close();
+   }
 }

@@ -28,13 +28,16 @@ import java.util.concurrent.TimeUnit;
       
        private static final long serialVersionUID = 1L;  
        private JButton btnAvancar, btnVoltar, btnAbrir;  
-       private JPanel pnlBotoes;  
-       private SomPanel.VisualizaImgem pnlImagem;  
+       private JPanel pnlBotoes; 
        private int indice = 0;  
-       private String sons[];  
+       private String sons[]; 
+       private Mp3 mp3;
       
        public SomPanel(String sonsUrls[]) {  
           
+           
+          this.setBackground(new java.awt.Color(0, 51, 102));
+           
           setLayout(new BorderLayout(5, 10));  
           setSize(450, 300);  
       
@@ -48,18 +51,16 @@ import java.util.concurrent.TimeUnit;
           pnlBotoes.add(btnVoltar);  
           pnlBotoes.add(btnAbrir);  
           pnlBotoes.add(btnAvancar);  
+          pnlBotoes.setBackground(new java.awt.Color(0, 51, 102));
           add(pnlBotoes, BorderLayout.NORTH);  
       
-          pnlImagem = new SomPanel.VisualizaImgem();  
-          add(pnlImagem);  
-      
           if (sonsUrls == null || sonsUrls.length == 0) {  
-             String imgs[] = escolhersons();  
-             if (imgs == null || imgs.length == 0) {  
-                System.exit(0);  
-             } else {  
-                setsons(imgs);  
-             }  
+//             String imgs[] = escolhersons();  
+//             if (imgs == null || imgs.length == 0) {  
+//                System.exit(0);  
+//             } else {  
+//                setsons(imgs);  
+//             }  
           } else {  
              setsons(sonsUrls);  
           }  
@@ -74,7 +75,7 @@ import java.util.concurrent.TimeUnit;
                    indice = 0;  
                 
                 //pnlImagem.setImg(sons[indice]);  
-                tocarSom(sons[indice]);
+                tocar();
              }  
           });  
       
@@ -88,7 +89,7 @@ import java.util.concurrent.TimeUnit;
                    indice = sons.length - 1;  
                 
                 //pnlImagem.setImg(sons[indice]);  
-                tocarSom(sons[indice]);
+                tocar();
                 
              }  
           });  
@@ -100,7 +101,15 @@ import java.util.concurrent.TimeUnit;
              }  
           });  
       
-       }  
+       }
+       
+       public void tocar(){
+           if(mp3 != null){
+               mp3.stopMusic();
+           }
+           mp3 = new Mp3(new File(sons[indice]));
+           mp3.start();
+       }
       
        public String[] escolhersons() throws NullPointerException {  
           String sons[];  
@@ -121,55 +130,10 @@ import java.util.concurrent.TimeUnit;
        public void setsons(String sons[]) {  
           indice = 0;  
           //pnlImagem.setImg(sons[0]);  
-          tocarSom(sons[0]);
           this.sons = sons;  
-       }  
-       
-       public void tocarSom(String path)
-       {
-           ThreadPoolExecutor pool = new ThreadPoolExecutor(1, // core threads
-                1, // max threads
-                1, // timeout
-                TimeUnit.MINUTES, // timeout units
-                new LinkedBlockingQueue() // work queue
-        );
-           
-           File mp3File = new File(path);
-           Thread t = new Thread( new Mp3(mp3File) );
-           
-           pool.submit(t);
-           
+          tocar();
+                 
        }
-      
-       public class VisualizaImgem extends JPanel {  
-          private static final long serialVersionUID = 1L;  
-          private Image img;  
-      
-          public VisualizaImgem() {  
-          }  
-      
-          public VisualizaImgem(Image img) {  
-             setImg(img);  
-          }  
-      
-          public VisualizaImgem(String url) {  
-             setImg(img);  
-          }  
-      
-          protected void paintComponent(final Graphics g) {  
-             super.paintComponent(g);  
-             g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
-          }  
-      
-          public void setImg(Image img) {  
-             this.img = img;  
-             this.repaint();  
-          }  
-      
-          public void setImg(String url) {  
-             setImg(Toolkit.getDefaultToolkit().createImage(url));  
-          }  
-       }  
       
        public static void main(String[] args) {  
           new ImagemPanel(args).setVisible(true);  
