@@ -17,12 +17,17 @@ public class PacmFrame extends javax.swing.JFrame {
     /**
      * Creates new form PacmFrame
      */
+    
+    private MenuPanel menuPanel;
+    
     public PacmFrame() {
         initComponents();
         this.setBackground(new java.awt.Color(0, 51, 102));
         this.setForeground(new java.awt.Color(0, 51, 102));
         
-        jScrollPane1.setViewportView(new MenuPanel(this));
+        menuPanel = new MenuPanel(this);
+        
+        jScrollPane1.setViewportView(menuPanel);
         
     }
 
@@ -98,7 +103,7 @@ public class PacmFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonVoltarActionPerformed
-        jScrollPane1.setViewportView(new MenuPanel(this));
+        jScrollPane1.setViewportView(menuPanel);
 
     }//GEN-LAST:event_JButtonVoltarActionPerformed
 

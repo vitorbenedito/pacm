@@ -1,141 +1,217 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package pacm.view;
 
-    import java.awt.BorderLayout;  
-    import java.awt.Graphics;  
-    import java.awt.GridLayout;  
-    import java.awt.Image;  
-    import java.awt.Toolkit;  
-    import java.awt.event.ActionEvent;  
-    import java.awt.event.ActionListener;  
-    import java.io.File;  
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-      
-    import javax.swing.JButton;  
-    import javax.swing.JFileChooser;  
-    import javax.swing.JPanel;  
-      
-    /* 
-     *  
-     * Por William Antônio Siqueira 
-     *  
-     * FALTA: Buferizar as sons aberta.... 
-     * */  
-      
-      
-    public class SomPanel extends JPanel {  
-      
-       private static final long serialVersionUID = 1L;  
-       private JButton btnAvancar, btnVoltar, btnAbrir;  
-       private JPanel pnlBotoes; 
-       private int indice = 0;  
-       private String sons[]; 
-       private Mp3 mp3;
-      
-       public SomPanel(String sonsUrls[]) {  
-          
-           
-          this.setBackground(new java.awt.Color(0, 51, 102));
-           
-          setLayout(new BorderLayout(5, 10));  
-          setSize(450, 300);  
-      
-          btnAvancar = new JButton(">>");  
-      
-          btnAbrir = new JButton("Abrir");  
-      
-          btnVoltar = new JButton("<<");  
-      
-          pnlBotoes = new JPanel(new GridLayout(1, 3, 30, 5));  
-          pnlBotoes.add(btnVoltar);  
-          pnlBotoes.add(btnAbrir);  
-          pnlBotoes.add(btnAvancar);  
-          pnlBotoes.setBackground(new java.awt.Color(0, 51, 102));
-          add(pnlBotoes, BorderLayout.NORTH);  
-      
-          if (sonsUrls == null || sonsUrls.length == 0) {  
-//             String imgs[] = escolhersons();  
-//             if (imgs == null || imgs.length == 0) {  
-//                System.exit(0);  
-//             } else {  
-//                setsons(imgs);  
-//             }  
-          } else {  
-             setsons(sonsUrls);  
-          }  
-      
-          btnAvancar.addActionListener(new ActionListener() {  
-      
-             @Override  
-             public void actionPerformed(ActionEvent e) {  
-                if (indice < sons.length - 1)  
-                   indice++;  
-                else  
-                   indice = 0;  
-                
-                //pnlImagem.setImg(sons[indice]);  
-                tocar();
-             }  
-          });  
-      
-          btnVoltar.addActionListener(new ActionListener() {  
-      
-             @Override  
-             public void actionPerformed(ActionEvent e) {  
-                if (indice > 0)  
-                   indice--;  
-                else  
-                   indice = sons.length - 1;  
-                
-                //pnlImagem.setImg(sons[indice]);  
-                tocar();
-                
-             }  
-          });  
-          btnAbrir.addActionListener(new ActionListener() {  
-      
-             @Override  
-             public void actionPerformed(ActionEvent e) {  
-                setsons(escolhersons());  
-             }  
-          });  
-      
-       }
-       
-       public void tocar(){
-           if(mp3 != null){
-               mp3.stopMusic();
-           }
-           mp3 = new Mp3(new File(sons[indice]));
-           mp3.start();
-       }
-      
-       public String[] escolhersons() throws NullPointerException {  
-          String sons[];  
-          JFileChooser fc = new JFileChooser();  
-          fc.setMultiSelectionEnabled(true);  
-      
-          fc.showOpenDialog(this);  
-      
-          File selFile[] = fc.getSelectedFiles();  
-          sons = new String[selFile.length];  
-      
-          for (int i = 0; i < selFile.length; i++) {  
-             sons[i] = selFile[i].getAbsolutePath();  
-          }  
-          return sons;  
-       }  
-      
-       public void setsons(String sons[]) {  
-          indice = 0;  
-          //pnlImagem.setImg(sons[0]);  
-          this.sons = sons;  
-          tocar();
-                 
-       }
-      
-       public static void main(String[] args) {  
-          new ImagemPanel(args).setVisible(true);  
-       }  
-    }  
+import java.io.File;
+import java.util.concurrent.FutureTask;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import pacm.business.skype.MakeCall;
+import pacm.business.skype.util.ThreadPoolCall;
+
+/**
+ *
+ * @author vitorbenedito
+ */
+public class SomPanel extends javax.swing.JPanel {
+
+    /**
+     * Creates new form LigacaoPanel
+     *
+     *
+     */
+    PacmFrame mainFrame;
+    private int indice = 0;
+    private String sons[];
+    private Mp3 mp3;
+    private boolean tocando = false;
+
+    public SomPanel(PacmFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        initComponents();
+
+        jLabel3.setIcon(new ImageIcon(getClass().getResource("/music-icon.png")));
+    }
+
+    public void tocar() {
+        parar();
+        mp3 = new Mp3(new File(sons[indice]));
+        mp3.start();
+        jLabelMusica.setText( (sons[indice].substring( sons[indice].lastIndexOf("/") + 1,sons[indice].length()  ) ));
+    }
+    
+    public void parar(){
+        if (mp3 != null) {
+            mp3.stopMusic();
+            jLabelMusica.setText("");
+        }
+    }
+
+    public String[] escolhersons() throws NullPointerException {
+        String sons[];
+        JFileChooser fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(true);
+
+        fc.showOpenDialog(this);
+
+        File selFile[] = fc.getSelectedFiles();
+        sons = new String[selFile.length];
+
+        for (int i = 0; i < selFile.length; i++) {
+            sons[i] = selFile[i].getAbsolutePath();
+        }
+        return sons;
+    }
+
+    public void setsons(String sons[]) {
+        indice = 0;
+        this.sons = sons;
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabelMusica = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(0, 51, 102));
+        setPreferredSize(new java.awt.Dimension(640, 508));
+
+        jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fast-backward-icon.png"))); // NOI18N
+        jButton1.setActionCommand("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fast-forward-icon.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Play-icon.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My-Music-icon.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabelMusica.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabelMusica.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelMusica.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(23, 23, 23)
+                        .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(181, 181, 181)
+                        .add(jButton1)
+                        .add(52, 52, 52)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(jButton3)
+                                .add(58, 58, 58)
+                                .add(jButton2))
+                            .add(jButton4)))
+                    .add(layout.createSequentialGroup()
+                        .add(115, 115, 115)
+                        .add(jLabelMusica, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 515, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(22, 22, 22)
+                .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(49, 49, 49)
+                .add(jButton4)
+                .add(31, 31, 31)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jButton2)
+                    .add(jButton1)
+                    .add(jButton3))
+                .add(18, 18, 18)
+                .add(jLabelMusica)
+                .addContainerGap(99, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(!tocando){
+           tocar();
+           tocando = true;
+           jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Stop-icon.png")));
+        }else{
+            parar();
+            tocando = false;
+            jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Play-icon.png")));
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        setsons(escolhersons());  
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (indice < sons.length - 1) {
+            indice++;
+        } else {
+            indice = 0;
+        }
+
+
+        tocar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (indice > 0) {
+            indice--;
+        } else {
+            indice = sons.length - 1;
+        }
+
+        tocar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelMusica;
+    // End of variables declaration//GEN-END:variables
+}

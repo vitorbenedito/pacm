@@ -4,6 +4,7 @@ package pacm.view;
     import java.awt.event.ActionEvent;  
     import java.awt.event.ActionListener;  
     import java.io.File;  
+import javax.swing.ImageIcon;
       
     import javax.swing.JButton;  
     import javax.swing.JFileChooser;  
@@ -33,11 +34,17 @@ package pacm.view;
           setLayout(new BorderLayout(5, 10));  
           setSize(450, 300);  
       
-          btnAvancar = new JButton(">>");  
+          btnAvancar = new JButton();  
+          
+          btnAvancar.setIcon(new ImageIcon(getClass().getResource("/next.png")));
       
-          btnAbrir = new JButton("Abrir");  
+          btnAbrir = new JButton();  
+          
+          btnAbrir.setIcon(new ImageIcon(getClass().getResource("/open-document.png")));
       
-          btnVoltar = new JButton("<<");  
+          btnVoltar = new JButton();
+          
+          btnVoltar.setIcon(new ImageIcon(getClass().getResource("/previous.png")));
       
           pnlBotoes = new JPanel(new GridLayout(1, 3, 30, 5));  
           pnlBotoes.setBackground(new java.awt.Color(0, 51, 102));
@@ -47,7 +54,7 @@ package pacm.view;
           add(pnlBotoes, BorderLayout.NORTH);  
       
           pnlImagem = new VisualizaImgem();  
-          add(pnlImagem);  
+          add(pnlImagem, BorderLayout.CENTER);  
           
           if (imagensUrls == null || imagensUrls.length == 0) {  
 //             String imgs[] = escolherImagens();  
@@ -125,6 +132,7 @@ package pacm.view;
       
           public VisualizaImgem() { 
               this.setBackground(new java.awt.Color(0, 51, 102));
+             
           }  
       
           public VisualizaImgem(Image img) {  
@@ -137,7 +145,7 @@ package pacm.view;
       
           protected void paintComponent(final Graphics g) {  
              super.paintComponent(g);  
-             g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
+             g.drawImage(img, 35, 0, 800, 600, this);  
           }  
       
           public void setImg(Image img) {  

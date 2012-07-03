@@ -18,6 +18,9 @@ public class MenuPanel extends javax.swing.JPanel implements ActionListener {
 
     PacmFrame mainFrame;
     
+    private SomPanel somPanel;
+    private LigacaoPanel ligacaoPanel;
+    
     private Timer timer;  
     
     /**
@@ -32,6 +35,8 @@ public class MenuPanel extends javax.swing.JPanel implements ActionListener {
         mainFrame = pacmFrame;
         mainFrame.getJButtonVoltar().setVisible(false);  
         disparaRelogio();
+        somPanel = new SomPanel( null );
+        ligacaoPanel = new LigacaoPanel(mainFrame);
         
     }
     
@@ -272,14 +277,15 @@ public class MenuPanel extends javax.swing.JPanel implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        
         mainFrame.getjScrollPane1().setViewportView(new InternetPanel()); 
         mainFrame.getJButtonVoltar().setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         mainFrame.getjScrollPane1().setViewportView(new LigacaoPanel(mainFrame));  
+
+         mainFrame.getjScrollPane1().setViewportView(ligacaoPanel);  
          mainFrame.getJButtonVoltar().setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -305,7 +311,7 @@ public class MenuPanel extends javax.swing.JPanel implements ActionListener {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        mainFrame.getjScrollPane1().setViewportView(new SomPanel( null ));  
+        mainFrame.getjScrollPane1().setViewportView(somPanel);  
         mainFrame.getJButtonVoltar().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
